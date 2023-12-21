@@ -135,12 +135,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\winiette\types.h" />
     <ClInclude Include="include\winiette\win32.h" />
     <ClInclude Include="include\winiette\winiette.h" />
     <ClInclude Include="include\winiette\Widget.h" />
+    <ClInclude Include="include\winiette\WindowClass.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Widget.cc" />
+    <ClCompile Include="src\WindowClass.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

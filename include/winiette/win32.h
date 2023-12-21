@@ -7,4 +7,6 @@
 #include <windows.h>
 #include <commdlg.h>
 
+#define STDCXX_17_OR_HIGHER (__cplusplus >= 201703L || _MSVC_LANG >= 201703L)
+
 #endif  // WINIETTE_INCLUDE_WINIETTE_WIN32_H_
