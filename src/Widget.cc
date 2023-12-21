@@ -65,7 +65,7 @@ auto winiette::Widget::GetWindowClass() const -> WindowClass
     wc.window_proc(&Widget::_MasterWndProc);
     wc.hinstance(GetModuleHandleW(nullptr));
 
-	return WindowClass();
+	return wc;
 }
 
 auto winiette::Widget::WindowProc(u32 msg, Wparam wparam, Lparam lparam) -> Lresult
