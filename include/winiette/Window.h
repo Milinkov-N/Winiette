@@ -25,8 +25,9 @@ namespace winiette
 		);
 
 	public:
+		auto OnRun(WndProcCallback cb) -> void;
 		auto Show() -> void;
-		auto Exec(WndProcCallback cb) -> i32;
+		auto Exec() -> i32;
 
 	private:
 		auto GetWindowClass() const->winiette::WindowClass final;

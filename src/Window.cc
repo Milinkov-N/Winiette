@@ -31,17 +31,20 @@ winiette::Window::Window(
 	wco_.style = ws::OverlappedWindow;
 }
 
+auto winiette::Window::OnRun(WndProcCallback cb) -> void
+{
+	cb_ = cb;
+}
+
 auto winiette::Window::Show() -> void
 {
 	ShowWindow(hwnd_, SW_SHOW);
 	UpdateWindow(hwnd_);
 }
 
-auto winiette::Window::Exec(WndProcCallback cb) -> i32
+auto winiette::Window::Exec() -> i32
 {
 	Msg msg{ 0 };
-
-	cb_ = cb;
 
 	while (GetMessage(&msg, nullptr, 0, 0))
 	{
