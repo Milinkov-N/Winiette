@@ -26,6 +26,7 @@ namespace winiette
 		using Dword = DWORD;
 		using CreateStructPtr = LPCREATESTRUCT;
 		using LongPtr = LONG_PTR;
+		using WideStrPtr = LPCWSTR;
 		using Lresult = LRESULT;
 		using OpenFileNameStruct = OPENFILENAME;
 		using ChooseColorStruct = CHOOSECOLOR;

@@ -29,15 +29,16 @@ auto winiette::Widget::Create(Hwnd parent, Hmenu menu) -> void
         wco_.style_ex,
 #if STDCXX_17_OR_HIGHER
         wcex.class_name().data(),
+        title_.data(),
 #else
         wcex.class_name(),
+        title_,
 #endif  // STDCXX_17_OR_HIGHER
-        title_.data(),
-        wco_.style,
-        wco_.x,
-        wco_.y,
-        wco_.width,
-        wco_.height,
+        static_cast<Dword>(wco_.style),
+        wco_.pos.x,
+        wco_.pos.y,
+        wco_.size.w,
+        wco_.size.h,
         parent,
         menu,
         GetModuleHandleW(nullptr),
@@ -52,7 +53,7 @@ auto winiette::Widget::Create(Hwnd parent, Hmenu menu) -> void
 #if STDCXX_17_OR_HIGHER
 winiette::Widget::Widget(std::wstring_view title)
 #else
-winiette::Widget::Widget(std::wstring title)
+winiette::Widget::Widget(WideStrPtr title)
 #endif  // STDCXX_17_OR_HIGHER
 	: hwnd_(nullptr), title_(title)
 {

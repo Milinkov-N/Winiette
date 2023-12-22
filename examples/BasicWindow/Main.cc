@@ -2,19 +2,19 @@
 
 #include <winiette/winiette.h>
 
+using winiette::ws;
 using namespace winiette::types;
+using SysIcon = winiette::SystemIconId;
+using SysCursor = winiette::SystemCursorId;
 
-class MainWindow : public winiette::Widget
+class BasicWindow : public winiette::Widget
 {
 public:
-	MainWindow() : winiette::Widget(L"Winiette Basic Window")
+	BasicWindow() : winiette::Widget(L"Winiette Basic Window")
 	{
-		wco_.width = 1080u;
-		wco_.height = 720u;
-		wco_.x = 100u;
-		wco_.y = 100u;
-		wco_.style = WS_OVERLAPPEDWINDOW;
-		wco_.style_ex = 0;
+		wco_.size = { 1080u, 720u };
+		wco_.pos = { 100u, 100u };
+		wco_.style = ws::OverlappedWindow;
 	}
 
 public:
@@ -42,11 +42,11 @@ private:
 	{
 		auto wc(Widget::GetWindowClass());
 
-		wc.background(reinterpret_cast<Hbrush>(COLOR_WINDOW + 1));
-		wc.icon(LoadIconW(nullptr, IDI_APPLICATION));
-		wc.cursor(LoadCursorW(nullptr, IDC_ARROW));
-		wc.class_name(L"MainWindowClass");
-		wc.icon_sm(LoadIconW(nullptr, IDI_APPLICATION));
+		wc.background(winiette::SystemColorBrush::White());
+		wc.icon(winiette::LoadSystemIcon(SysIcon::App));
+		wc.cursor(winiette::LoadSystemCursor(SysCursor::Arrow));
+		wc.class_name(L"BasicWindowClass");
+		wc.icon_sm(winiette::LoadSystemIcon(SysIcon::App));
 
 		return wc;
 	}
@@ -73,7 +73,7 @@ auto WinMain(Hinstance hinstance, i32 cmd_show) -> i32
 	std::ignore = hinstance;
 	std::ignore = cmd_show;
 
-	MainWindow mw;
+	BasicWindow mw;
 
 	mw.Create();
 	mw.Show();

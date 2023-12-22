@@ -14,20 +14,96 @@
 
 namespace winiette
 {
-	struct WidgetCreateOptions
+	struct Size
 	{
-		u32 width;
-		u32 height;
+		union
+		{
+			u32 width;
+			u32 w;
+		};
+
+		union
+		{
+			u32 height;
+			u32 h;
+		};
+
+		constexpr Size() noexcept;
+		constexpr Size(u32 w, u32 h) noexcept;
+	};
+
+	constexpr Size::Size() noexcept : w(0), h(0)
+	{
+	}
+
+	constexpr Size::Size(u32 w, u32 h) noexcept : w(w), h(h)
+	{
+	}
+
+	struct Pos
+	{
 		u32 x;
 		u32 y;
-		Dword style;
+
+		constexpr Pos() noexcept;
+		constexpr Pos(u32 x, u32 y) noexcept;
+	};
+
+	constexpr Pos::Pos() noexcept : x(0), y(0)
+	{
+	}
+
+	constexpr Pos::Pos(u32 x, u32 y) noexcept : x(x), y(y)
+	{
+	}
+
+	enum class WidgetStyle : i64
+	{
+		Overlapped = 0x00000000L,
+		Popup = 0x80000000L,
+		Child = 0x40000000L,
+		Minimize = 0x20000000L,
+		Visible = 0x10000000L,
+		Disabled = 0x08000000L,
+		ClipSiblings = 0x04000000L,
+		ClipChildren = 0x02000000L,
+		Maximize = 0x01000000L,
+		Caption = 0x00C00000L,
+		Border = 0x00800000L,
+		DialogFrame = 0x00400000L,
+		Vscroll = 0x00200000L,
+		Hscroll = 0x00100000L,
+		SysMenu = 0x00080000L,
+		Thickframe = 0x00040000L,
+		Group = 0x00020000L,
+		TabStop = 0x00010000L,
+		MinimizeBox = 0x00020000L,
+		MaximizeBox = 0x00010000L,
+		OverlappedWindow = Overlapped
+			| Caption
+			| SysMenu
+			| Thickframe
+			| MinimizeBox
+			| MaximizeBox,
+		PopupWindow = Popup
+			| Border
+			| SysMenu,
+	};
+
+	using ws = WidgetStyle;
+
+	struct WidgetCreateOptions
+	{
+		Size size;
+		Pos pos;
+		WidgetStyle style;
 		Dword style_ex;
 
 		constexpr WidgetCreateOptions() noexcept;
 	};
 
 	constexpr WidgetCreateOptions::WidgetCreateOptions() noexcept
-		: width(0), height(0), x(0), y(0), style(0), style_ex(0)
+		: style(ws::Overlapped), style_ex(0)
 	{
 	}
 
@@ -50,11 +126,11 @@ namespace winiette
 #if STDCXX_17_OR_HIGHER
 		explicit Widget(std::wstring_view title = L"");
 #else
-		explicit Widget(std::wstring title = L"");
+		explicit Widget(WideStrPtr title = L"");
 #endif  // STDCXX_17_OR_HIGHER
 
 	protected:
-		virtual auto GetWindowClass() const -> WindowClass;
+		virtual auto GetWindowClass() const->WindowClass;
 		virtual auto WindowProc(u32 msg, Wparam wparam, Lparam lparam) -> Lresult;
 
 	protected:
@@ -62,7 +138,7 @@ namespace winiette
 #if STDCXX_17_OR_HIGHER
 		std::wstring_view title_;
 #else
-		std::wstring title_;
+		WideStrPtr title_;
 #endif  // STDCXX_17_OR_HIGHER
 		WidgetCreateOptions wco_;
 
