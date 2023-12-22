@@ -2,6 +2,8 @@
 #ifndef WINIETTE_INCLUDE_WINIETTE_WINDOW_CLASS_H_
 #define WINIETTE_INCLUDE_WINIETTE_WINDOW_CLASS_H_
 
+#include <string_view>
+
 #include <winiette/win32.h>
 #include <winiette/types.h>
 
@@ -24,11 +26,7 @@ namespace winiette
 		constexpr auto icon()        const noexcept -> const Hicon&;
 		constexpr auto cursor()      const noexcept -> const Hcursor&;
 		constexpr auto background()  const noexcept -> const Hbrush&;
-#if STDCXX_17_OR_HIGHER
 		constexpr auto class_name()  const noexcept -> std::wstring_view;
-#else
-		constexpr auto class_name()  const noexcept -> const wchar_t*;
-#endif  // STDCXX_17_OR_HIGHER
 		constexpr auto icon_sm()     const noexcept -> const Hicon&;
 		constexpr auto is_builtin()   const noexcept -> bool;
 
@@ -40,11 +38,7 @@ namespace winiette
 		constexpr auto icon(Hicon hicon) noexcept -> void;
 		constexpr auto cursor(Hcursor hcursor) noexcept -> void;
 		constexpr auto background(Hbrush hbrush) noexcept -> void;
-#if STDCXX_17_OR_HIGHER
 		constexpr auto class_name(std::wstring_view class_name) noexcept -> void;
-#else
-		constexpr auto class_name(const wchar_t* class_name) noexcept -> void;
-#endif  // STDCXX_17_OR_HIGHER
 		constexpr auto icon_sm(Hicon hicon_sm) noexcept -> void;
 		constexpr auto is_builtin(bool is_builtin) noexcept -> void;
 
@@ -93,17 +87,10 @@ namespace winiette
 		return wcex_.hbrBackground;
 	}
 
-#if STDCXX_17_OR_HIGHER
 	constexpr auto WindowClass::class_name() const noexcept -> std::wstring_view
 	{
 		return wcex_.lpszClassName;
 	}
-#else
-	constexpr auto WindowClass::class_name() const noexcept -> const wchar_t*
-	{
-		return wcex_.lpszClassName;
-	}
-#endif  // STDCXX_17_OR_HIGHER
 
 	constexpr auto WindowClass::icon_sm() const noexcept -> const Hicon&
 	{
@@ -144,17 +131,10 @@ namespace winiette
 		wcex_.hbrBackground = hbrush;
 	}
 
-#if STDCXX_17_OR_HIGHER
 	constexpr auto WindowClass::class_name(std::wstring_view class_name) noexcept -> void
 	{
 		wcex_.lpszClassName = class_name.data();
 	}
-#else
-	constexpr auto WindowClass::class_name(const wchar_t* class_name) noexcept -> void
-	{
-		wcex_.lpszClassName = class_name;
-	}
-#endif  // STDCXX_17_OR_HIGHER
 
 	constexpr auto WindowClass::icon_sm(Hicon hicon_sm) noexcept -> void
 	{

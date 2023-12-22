@@ -27,13 +27,8 @@ auto winiette::Widget::Create(Hwnd parent, Hmenu menu) -> void
 
     hwnd_ = CreateWindowExW(
         wco_.style_ex,
-#if STDCXX_17_OR_HIGHER
         wcex.class_name().data(),
         title_.data(),
-#else
-        wcex.class_name(),
-        title_,
-#endif  // STDCXX_17_OR_HIGHER
         static_cast<Dword>(wco_.style),
         wco_.pos.x,
         wco_.pos.y,
@@ -50,11 +45,7 @@ auto winiette::Widget::Create(Hwnd parent, Hmenu menu) -> void
         throw std::runtime_error("failed to initialize window");
 }
 
-#if STDCXX_17_OR_HIGHER
 winiette::Widget::Widget(std::wstring_view title)
-#else
-winiette::Widget::Widget(WideStrPtr title)
-#endif  // STDCXX_17_OR_HIGHER
 	: hwnd_(nullptr), title_(title)
 {
 }

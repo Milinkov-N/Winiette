@@ -6,11 +6,7 @@
 #include <winiette/types.h>
 #include <winiette/windowclass.h>
 
-#if STDCXX_17_OR_HIGHER
 #include <string_view>
-#else
-#include <string>
-#endif  // STDCXX_17_OR_HIGHER
 
 namespace winiette
 {
@@ -123,11 +119,7 @@ namespace winiette
 		auto operator=(const Widget&) = delete;
 
 	protected:
-#if STDCXX_17_OR_HIGHER
 		explicit Widget(std::wstring_view title = L"");
-#else
-		explicit Widget(WideStrPtr title = L"");
-#endif  // STDCXX_17_OR_HIGHER
 
 	protected:
 		virtual auto GetWindowClass() const->WindowClass;
@@ -135,11 +127,7 @@ namespace winiette
 
 	protected:
 		Hwnd hwnd_;
-#if STDCXX_17_OR_HIGHER
 		std::wstring_view title_;
-#else
-		WideStrPtr title_;
-#endif  // STDCXX_17_OR_HIGHER
 		WidgetCreateOptions wco_;
 
 	private:
