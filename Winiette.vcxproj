@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="include\winiette\Font.h" />
     <ClInclude Include="include\winiette\Drawer.h" />
     <ClInclude Include="include\winiette\Button.h" />
     <ClInclude Include="include\winiette\types.h" />
@@ -151,6 +152,7 @@
     <ClInclude Include="include\winiette\MsgBox.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Font.cc" />
     <ClCompile Include="src\Drawer.cc" />
     <ClCompile Include="src\MsgBox.cc" />
     <ClCompile Include="src\Button.cc" />

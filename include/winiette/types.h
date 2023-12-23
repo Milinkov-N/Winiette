@@ -18,6 +18,7 @@ namespace winiette
 		using Hicon = HICON;
 		using Hcursor = HCURSOR;
 		using Hdc = HDC;
+		using Hfont = HFONT;
 		using WndProc = WNDPROC;
 		using Wparam = WPARAM;
 		using Lparam = LPARAM;

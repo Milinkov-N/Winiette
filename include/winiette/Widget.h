@@ -76,7 +76,7 @@ namespace winiette
 
 	public:
 		auto Create(Hwnd parent = nullptr, Hmenu menu = nullptr) -> void;
-		auto GetMenuHandle() const -> const Hmenu&;
+		auto GetMenuHandle() const -> Hmenu;
 
 	public:
 		Widget(const Widget&) = delete;

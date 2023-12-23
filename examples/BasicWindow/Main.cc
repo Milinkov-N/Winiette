@@ -1,6 +1,5 @@
 #include <ctime>
 #include <tuple>
-#include <memory>
 
 #include <winiette/winiette.h>
 

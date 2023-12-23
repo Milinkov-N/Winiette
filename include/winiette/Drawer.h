@@ -4,6 +4,7 @@
 
 #include <winiette/win32.h>
 #include <winiette/types.h>
+#include <winiette/font.h>
 
 namespace winiette
 {
@@ -14,7 +15,9 @@ namespace winiette
 		~Drawer() noexcept;
 
 	public:
+		constexpr auto hdc() const noexcept -> const Hdc&;
 		auto Pixel(Pos position, Color color) -> void;
+		auto Text(Pos position, std::wstring_view text, Font& font) -> void;
 
 	public:
 		Drawer(const Drawer&) = delete;
@@ -27,6 +30,11 @@ namespace winiette
 		PaintStruct ps_;
 		Hdc hdc_;
 	};
+
+	constexpr auto Drawer::hdc() const noexcept -> const Hdc&
+	{
+		return hdc_;
+	}
 }  // namespace winiette
 
 #endif  // WINIETTE_INCLUDE_WINIETTE_DRAWER_H_

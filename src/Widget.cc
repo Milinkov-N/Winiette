@@ -45,7 +45,7 @@ auto winiette::Widget::Create(Hwnd parent, Hmenu menu) -> void
         throw std::runtime_error("failed to initialize window");
 }
 
-auto winiette::Widget::GetMenuHandle() const -> const Hmenu&
+auto winiette::Widget::GetMenuHandle() const -> Hmenu
 {
     return GetMenu(hwnd_);
 }
