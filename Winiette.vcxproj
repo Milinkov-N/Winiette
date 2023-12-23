@@ -146,8 +146,10 @@
     <ClInclude Include="include\winiette\Widget.h" />
     <ClInclude Include="include\winiette\WindowClass.h" />
     <ClInclude Include="include\winiette\Window.h" />
+    <ClInclude Include="include\winiette\MsgBox.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\MsgBox.cc" />
     <ClCompile Include="src\Button.cc" />
     <ClCompile Include="src\Widget.cc" />
     <ClCompile Include="src\WindowClass.cc" />

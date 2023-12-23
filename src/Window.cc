@@ -28,7 +28,7 @@ winiette::Window::Window(
 {
 	wco_.size = size;
 	wco_.pos = pos;
-	wco_.style = ws::OverlappedWindow;
+	wco_.style = Ws::OverlappedWindow;
 }
 
 auto winiette::Window::OnRun(WndProcCallback cb) -> void

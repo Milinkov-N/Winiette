@@ -86,7 +86,12 @@ namespace winiette
 			| SysMenu,
 	};
 
-	using ws = WidgetStyle;
+	using Ws = WidgetStyle;
+
+	constexpr auto operator|(const Ws& lhs, const Ws& rhs) -> Ws
+	{
+		return static_cast<Ws>(static_cast<Dword>(lhs) | static_cast<Dword>(rhs));
+	}
 
 	struct WidgetCreateOptions
 	{
@@ -99,7 +104,7 @@ namespace winiette
 	};
 
 	constexpr WidgetCreateOptions::WidgetCreateOptions() noexcept
-		: style(ws::Overlapped), style_ex(0)
+		: style(Ws::Overlapped), style_ex(0)
 	{
 	}
 

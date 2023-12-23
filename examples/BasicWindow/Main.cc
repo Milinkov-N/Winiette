@@ -3,6 +3,7 @@
 #include <winiette/types.h>
 #include <winiette/window.h>
 #include <winiette/button.h>
+#include <winiette/msgbox.h>
 
 using namespace winiette::types;
 
@@ -21,6 +22,14 @@ auto WinMain(Hinstance hinstance, i32 cmd_show) -> i32
 			{
 				winiette::Button btn(L"Push me", { 120u, 40u }, { 10u, 10u });
 				btn.Create(hwnd, reinterpret_cast<Hmenu>(1));
+				break;
+			}
+			case WM_COMMAND:
+			{
+				if (LOWORD(wparam) == 1)
+				{
+					winiette::MsgBox::Info(L"Ayo");
+				}
 				break;
 			}
 			case WM_DESTROY:
