@@ -2,6 +2,8 @@
 
 using namespace winiette::types;
 
+static const auto DEFAULT_MESSAGE_CALLBACK = [](Hwnd) { return 0; };
+
 static auto _DefaultWindowProcCallback(
 	Hwnd hwnd,
 	u32 msg,
@@ -25,16 +27,12 @@ winiette::Window::Window(
 	icon_(icon),
 	cursor_(cursor),
 	cb_(_DefaultWindowProcCallback),
-	destroy_cb_([] { return 0; })
+	paint_cb_(DEFAULT_MESSAGE_CALLBACK),
+	destroy_cb_(DEFAULT_MESSAGE_CALLBACK)
 {
 	wco_.size = size;
 	wco_.pos = pos;
 	wco_.style = Ws::OverlappedWindow;
-}
-
-auto winiette::Window::OnRun(WndProcCallback cb) -> void
-{
-	cb_ = cb;
 }
 
 auto winiette::Window::Connect(u64 id, Handler handler) -> void
@@ -42,7 +40,12 @@ auto winiette::Window::Connect(u64 id, Handler handler) -> void
 	handlers_.insert({ reinterpret_cast<Hmenu>(id), handler });
 }
 
-auto winiette::Window::OnDestroy(DestroyCallback destroy_cb) -> void
+auto winiette::Window::OnPaint(MessageCallback paint_cb) -> void
+{
+	paint_cb_ = paint_cb;
+}
+
+auto winiette::Window::OnDestroy(MessageCallback destroy_cb) -> void
 {
 	destroy_cb_ = destroy_cb;
 }
@@ -88,6 +91,11 @@ auto winiette::Window::WindowProc(u32 msg, Wparam wparam, Lparam lparam) -> Lres
 		for (const auto& w : widgets_) w->Create(hwnd_);
 		break;
 	}
+	case WM_PAINT:
+	{
+		paint_cb_(hwnd_);
+		break;
+	}
 	case WM_COMMAND:
 	{
 		auto handler = handlers_.find(reinterpret_cast<Hmenu>(LOWORD(wparam)));
@@ -95,7 +103,7 @@ auto winiette::Window::WindowProc(u32 msg, Wparam wparam, Lparam lparam) -> Lres
 		break;
 	}
 	case WM_DESTROY:
-		PostQuitMessage(destroy_cb_());
+		PostQuitMessage(destroy_cb_(hwnd_));
 		break;
 	}
 	return cb_(hwnd_, msg, wparam, lparam);

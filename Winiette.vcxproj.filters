@@ -39,6 +39,12 @@
     <ClInclude Include="include\winiette\MsgBox.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="include\winiette\Drawer.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="include\winiette\utility.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Widget.cc">
@@ -54,6 +60,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="src\MsgBox.cc">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Drawer.cc">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>

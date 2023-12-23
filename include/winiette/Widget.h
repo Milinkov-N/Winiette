@@ -10,49 +10,6 @@
 
 namespace winiette
 {
-	struct Size
-	{
-		union
-		{
-			u32 width;
-			u32 w;
-		};
-
-		union
-		{
-			u32 height;
-			u32 h;
-		};
-
-		constexpr Size() noexcept;
-		constexpr Size(u32 w, u32 h) noexcept;
-	};
-
-	constexpr Size::Size() noexcept : w(0), h(0)
-	{
-	}
-
-	constexpr Size::Size(u32 w, u32 h) noexcept : w(w), h(h)
-	{
-	}
-
-	struct Pos
-	{
-		u32 x;
-		u32 y;
-
-		constexpr Pos() noexcept;
-		constexpr Pos(u32 x, u32 y) noexcept;
-	};
-
-	constexpr Pos::Pos() noexcept : x(0), y(0)
-	{
-	}
-
-	constexpr Pos::Pos(u32 x, u32 y) noexcept : x(x), y(y)
-	{
-	}
-
 	enum class WidgetStyle : i64
 	{
 		Overlapped = 0x00000000L,

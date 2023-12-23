@@ -28,6 +28,7 @@ namespace winiette
 		using LongPtr = LONG_PTR;
 		using WideStrPtr = LPCWSTR;
 		using Lresult = LRESULT;
+		using PaintStruct = PAINTSTRUCT;
 		using OpenFileNameStruct = OPENFILENAME;
 		using ChooseColorStruct = CHOOSECOLOR;
 		using ChooseFontStruct = CHOOSEFONT;
@@ -46,6 +47,72 @@ namespace winiette
 		using isize = int64_t;
 		using f32 = float;
 		using f64 = double;
+
+		struct Size
+		{
+			union
+			{
+				u32 width;
+				u32 w;
+			};
+
+			union
+			{
+				u32 height;
+				u32 h;
+			};
+
+			constexpr Size() noexcept;
+			constexpr Size(u32 w, u32 h) noexcept;
+		};
+
+		constexpr Size::Size() noexcept : w(0), h(0)
+		{
+		}
+
+		constexpr Size::Size(u32 w, u32 h) noexcept : w(w), h(h)
+		{
+		}
+
+		struct Pos
+		{
+			u32 x;
+			u32 y;
+
+			constexpr Pos() noexcept;
+			constexpr Pos(u32 x, u32 y) noexcept;
+		};
+
+		constexpr Pos::Pos() noexcept : x(0), y(0)
+		{
+		}
+
+		constexpr Pos::Pos(u32 x, u32 y) noexcept : x(x), y(y)
+		{
+		}
+
+		struct Color
+		{
+			u8 r, g, b;
+
+			constexpr Color() noexcept;
+			constexpr Color(u8 r, u8 g, u8 b) noexcept;
+
+			constexpr operator ColorRef() const noexcept;
+		};
+
+		constexpr Color::Color() noexcept : r(0), g(0), b(0)
+		{
+		}
+
+		constexpr Color::Color(u8 r, u8 g, u8 b) noexcept : r(r), g(g), b(b)
+		{
+		}
+
+		constexpr Color::operator ColorRef() const noexcept
+		{
+			return RGB(r, g, b);
+		}
 	}  // namespace types
 
 	using namespace types;

@@ -7,7 +7,10 @@
 #include <functional>
 #include <memory>
 
-#include <winiette/winiette.h>
+#include <winiette/win32.h>
+#include <winiette/types.h>
+#include <winiette/widget.h>
+#include <winiette/utility.h>
 
 namespace winiette
 {
@@ -16,7 +19,7 @@ namespace winiette
 	public:
 		using WndProcCallback = std::function<Lresult(Hwnd, u32, Wparam, Lparam)>;
 		using Handler = std::function<void()>;
-		using DestroyCallback = std::function<i32()>;
+		using MessageCallback = std::function<i32(Hwnd)>;
 
 	public:
 
@@ -24,17 +27,17 @@ namespace winiette
 			std::wstring_view title,
 			Size size,
 			Pos pos,
-			Hbrush bg_color = SystemColorBrush::White(),
-			Hicon icon = LoadSystemIcon(SystemIconId::App),
-			Hcursor cursor = LoadSystemCursor(SystemCursorId::Arrow)
+			Hbrush bg_color = utility::SystemColorBrush::White(),
+			Hicon icon = utility::LoadSystemIcon(utility::SystemIconId::App),
+			Hcursor cursor = utility::LoadSystemCursor(utility::SystemCursorId::Arrow)
 		);
 
 	public:
-		auto OnRun(WndProcCallback cb) -> void;
 		template<class W, class... Args>
 		auto EmplaceWidget(Args... args) -> void;
 		auto Connect(u64 id, Handler handler) -> void;
-		auto OnDestroy(DestroyCallback destroy_cb) -> void;
+		auto OnPaint(MessageCallback paint_cb) -> void;
+		auto OnDestroy(MessageCallback destroy_cb) -> void;
 		auto Show() -> void;
 		auto Exec() -> i32;
 
@@ -48,7 +51,8 @@ namespace winiette
 		Hcursor cursor_;
 		WndProcCallback cb_;
 		std::vector<std::unique_ptr<Widget>> widgets_;
-		DestroyCallback destroy_cb_;
+		MessageCallback paint_cb_;
+		MessageCallback destroy_cb_;
 		std::map<Hmenu, Handler> handlers_;
 	};
 

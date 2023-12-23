@@ -1,9 +1,8 @@
+#include <ctime>
 #include <tuple>
-
-#include <winiette/types.h>
-#include <winiette/window.h>
-
 #include <memory>
+
+#include <winiette/winiette.h>
 
 using namespace winiette::types;
 
@@ -19,9 +18,10 @@ auto WinMain(Hinstance hinstance, i32 cmd_show) -> i32
 		btn_id,
 		L"Push me",
 		winiette::Size(120u, 40u),
-		winiette::Pos(10u, 10u )
+		winiette::Pos(10u, 10u)
 	);
 	mw.Connect(btn_id, [] { winiette::MsgBox::Info(L"Ayo"); });
+
 	mw.Create();
 	mw.Show();
 
