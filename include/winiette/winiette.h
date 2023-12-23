@@ -10,6 +10,7 @@
 #include <winiette/msgbox.h>
 #include <winiette/drawer.h>
 #include <winiette/font.h>
+#include <winiette/filedialog.h>
 
 namespace winiette
 {

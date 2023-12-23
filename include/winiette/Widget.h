@@ -76,6 +76,7 @@ namespace winiette
 
 	public:
 		auto Create(Hwnd parent = nullptr, Hmenu menu = nullptr) -> void;
+		constexpr auto GetWindowHandle() const noexcept -> const Hwnd&;
 		auto GetMenuHandle() const -> Hmenu;
 
 	public:
@@ -102,5 +103,10 @@ namespace winiette
 			Lparam lparam
 		) noexcept -> Lresult;
 	};
+
+	constexpr auto Widget::GetWindowHandle() const noexcept -> const Hwnd&
+	{
+		return hwnd_;
+	}
 } // namespace winiette
 #endif  // WINIETTE_INCLUDE_WINIETTE_WIDGET_H_
