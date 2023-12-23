@@ -35,7 +35,7 @@ auto winiette::Widget::Create(Hwnd parent, Hmenu menu) -> void
         wco_.size.w,
         wco_.size.h,
         parent,
-        menu,
+        wco_.menu,
         GetModuleHandleW(nullptr),
         this
     );
@@ -43,6 +43,11 @@ auto winiette::Widget::Create(Hwnd parent, Hmenu menu) -> void
     // FIXME: Better error message (maybe custom exception)
     if (hwnd_ == nullptr)
         throw std::runtime_error("failed to initialize window");
+}
+
+auto winiette::Widget::GetMenuHandle() const -> const Hmenu&
+{
+    return GetMenu(hwnd_);
 }
 
 winiette::Widget::Widget(std::wstring_view title)

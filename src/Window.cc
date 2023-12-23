@@ -24,7 +24,8 @@ winiette::Window::Window(
 	bg_color_(bg_color),
 	icon_(icon),
 	cursor_(cursor),
-	cb_(_DefaultWindowProcCallback)
+	cb_(_DefaultWindowProcCallback),
+	destroy_cb_([] { return 0; })
 {
 	wco_.size = size;
 	wco_.pos = pos;
@@ -34,6 +35,16 @@ winiette::Window::Window(
 auto winiette::Window::OnRun(WndProcCallback cb) -> void
 {
 	cb_ = cb;
+}
+
+auto winiette::Window::Connect(u64 id, Handler handler) -> void
+{
+	handlers_.insert({ reinterpret_cast<Hmenu>(id), handler });
+}
+
+auto winiette::Window::OnDestroy(DestroyCallback destroy_cb) -> void
+{
+	destroy_cb_ = destroy_cb;
 }
 
 auto winiette::Window::Show() -> void
@@ -70,5 +81,22 @@ auto winiette::Window::GetWindowClass() const -> winiette::WindowClass
 
 auto winiette::Window::WindowProc(u32 msg, Wparam wparam, Lparam lparam) -> Lresult
 {
+	switch (msg)
+	{
+	case WM_CREATE:
+	{
+		for (const auto& w : widgets_) w->Create(hwnd_);
+		break;
+	}
+	case WM_COMMAND:
+	{
+		auto handler = handlers_.find(reinterpret_cast<Hmenu>(LOWORD(wparam)));
+		if (handler != handlers_.end()) handler->second();
+		break;
+	}
+	case WM_DESTROY:
+		PostQuitMessage(destroy_cb_());
+		break;
+	}
 	return cb_(hwnd_, msg, wparam, lparam);
 }

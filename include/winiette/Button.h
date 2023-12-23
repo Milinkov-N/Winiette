@@ -16,7 +16,7 @@ namespace winiette
 		using Callback = std::function<void(Hwnd)>;
 
 	public:
-		Button(std::wstring_view caption, Size size, Pos pos);
+		Button(u64 id, std::wstring_view caption, Size size, Pos pos);
 
 	public:
 		auto OnClick(Callback callback) -> void;

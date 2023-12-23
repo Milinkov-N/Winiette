@@ -5,6 +5,8 @@
 #include <winiette/win32.h>
 #include <winiette/types.h>
 #include <winiette/widget.h>
+#include <winiette/button.h>
+#include <winiette/msgbox.h>
 
 namespace winiette
 {

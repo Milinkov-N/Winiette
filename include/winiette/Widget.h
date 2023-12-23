@@ -99,12 +99,13 @@ namespace winiette
 		Pos pos;
 		WidgetStyle style;
 		Dword style_ex;
+		Hmenu menu;
 
 		constexpr WidgetCreateOptions() noexcept;
 	};
 
 	constexpr WidgetCreateOptions::WidgetCreateOptions() noexcept
-		: style(Ws::Overlapped), style_ex(0)
+		: style(Ws::Overlapped), style_ex(0), menu(nullptr)
 	{
 	}
 
@@ -118,6 +119,7 @@ namespace winiette
 
 	public:
 		auto Create(Hwnd parent = nullptr, Hmenu menu = nullptr) -> void;
+		auto GetMenuHandle() const -> const Hmenu&;
 
 	public:
 		Widget(const Widget&) = delete;

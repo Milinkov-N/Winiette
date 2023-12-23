@@ -1,11 +1,12 @@
 #include <winiette/button.h>
 
-winiette::Button::Button(std::wstring_view caption, Size size, Pos pos)
+winiette::Button::Button(u64 id, std::wstring_view caption, Size size, Pos pos)
     : Widget(caption), cb_([](auto) {})
 {
     wco_.size = size;
     wco_.pos = pos;
     wco_.style = Ws::Visible | Ws::Child;
+    wco_.menu = reinterpret_cast<Hmenu>(id);
 }
 
 auto winiette::Button::OnClick(Callback callback) -> void

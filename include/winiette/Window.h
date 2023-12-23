@@ -3,7 +3,9 @@
 #define WINIETTE_INCLUDE_WINIETTE_WINDOW_H_
 
 #include <string_view>
+#include <map>
 #include <functional>
+#include <memory>
 
 #include <winiette/winiette.h>
 
@@ -13,9 +15,12 @@ namespace winiette
 	{
 	public:
 		using WndProcCallback = std::function<Lresult(Hwnd, u32, Wparam, Lparam)>;
+		using Handler = std::function<void()>;
+		using DestroyCallback = std::function<i32()>;
+
 	public:
 
-		explicit Window(
+		Window(
 			std::wstring_view title,
 			Size size,
 			Pos pos,
@@ -26,6 +31,10 @@ namespace winiette
 
 	public:
 		auto OnRun(WndProcCallback cb) -> void;
+		template<class W, class... Args>
+		auto EmplaceWidget(Args... args) -> void;
+		auto Connect(u64 id, Handler handler) -> void;
+		auto OnDestroy(DestroyCallback destroy_cb) -> void;
 		auto Show() -> void;
 		auto Exec() -> i32;
 
@@ -38,7 +47,16 @@ namespace winiette
 		Hicon icon_;
 		Hcursor cursor_;
 		WndProcCallback cb_;
+		std::vector<std::unique_ptr<Widget>> widgets_;
+		DestroyCallback destroy_cb_;
+		std::map<Hmenu, Handler> handlers_;
 	};
+
+	template<class W, class ...Args>
+	inline auto Window::EmplaceWidget(Args ...args) -> void
+	{
+		widgets_.push_back(std::make_unique<W>(args...));
+	}
 }  // namespace winiette
 
 #endif  // WINIETTE_INCLUDE_WINIETTE_WINDOW_H_
