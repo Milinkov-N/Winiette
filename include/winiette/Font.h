@@ -51,6 +51,8 @@ namespace winiette
 	public:
 		constexpr Font() noexcept;
 		Font(Hdc hdc, Hfont hfont) noexcept;
+		Font(Font&& other) noexcept;
+		auto operator=(Font&& rhs) noexcept -> Font&;
 		~Font() noexcept;
 
 	public:
@@ -61,8 +63,6 @@ namespace winiette
 	public:
 		Font(const Font&) = delete;
 		auto operator=(const Font&) = delete;
-		Font(Font&&) = delete;
-		auto operator=(Font&&) = delete;
 
 	private:
 		Hdc hdc_;

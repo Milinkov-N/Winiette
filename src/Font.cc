@@ -5,6 +5,21 @@ winiette::Font::Font(Hdc hdc, Hfont hfont) noexcept
 {
 }
 
+winiette::Font::Font(Font&& other) noexcept
+	: hdc_(std::exchange(other.hdc_, nullptr)),
+	font_(std::exchange(other.font_, nullptr)),
+	prev_font_(std::exchange(other.prev_font_, nullptr))
+{
+}
+
+auto winiette::Font::operator=(Font&& rhs) noexcept -> Font&
+{
+	hdc_ = std::exchange(rhs.hdc_, nullptr);
+	font_ = std::exchange(rhs.font_, nullptr);
+	prev_font_ = std::exchange(rhs.prev_font_, nullptr);
+	return *this;
+}
+
 winiette::Font::~Font() noexcept
 {
 	if (prev_font_ != nullptr)
