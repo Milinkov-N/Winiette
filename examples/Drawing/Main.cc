@@ -15,20 +15,27 @@ auto WinMain(Hinstance hinstance, i32 show_cmd) -> i32
 	mw.OnPaint([](Hwnd hwnd)
 		{
 			winiette::Drawer drawer(hwnd);
+			i32 offset = 0;
 
 			// Drawing text using custom font
 			{
-				auto guard = drawer.UsingTextColor(Color(178, 56, 243));
-
 				auto fb = winiette::Font::Builder(drawer.hdc());
 				fb.Size(48);
-				fb.FaceName(L"Time New Roman");
+				fb.FaceName(L"Cascadia Mono");
 
-				auto font = fb.Build();
-				drawer.Text({ 10, 10 }, L"Hello from Winiette Framework", std::move(font));
+				auto tc_guard = drawer.UsingTextColor(Color(178, 56, 243));
+				auto font_guard = drawer.UsingFont(fb.BuildUnique());
+
+				offset = drawer.Text(
+					{ 10, 0 },
+					L"Hello from Winiette Framework\nGive a star on GitHub :)"
+				);
 			}
 
-			drawer.Text({ 10, 82 }, L"Text with default fontface");
+			drawer.Text({ 10, static_cast<u32>(offset) + 32u }, L"Text with default fontface");
+
+			// multiline text
+			drawer.Text({ 10, 150 }, L"First Line\nSecond Line\nThird Line");
 
 			drawer.Pixel({ 500, 500 }, Color(255, 0, 0));
 			drawer.Pixel({ 500, 501 }, Color(255, 0, 0));

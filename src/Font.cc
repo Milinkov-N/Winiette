@@ -20,6 +20,19 @@ auto winiette::Font::operator=(Font&& rhs) noexcept -> Font&
 	return *this;
 }
 
+winiette::Font::Font(const Font& other)
+	: hdc_(other.hdc_), prev_font_(other.prev_font_), font_(other.font_)
+{
+}
+
+ auto winiette::Font::operator=(const Font& rhs) -> Font
+{
+	hdc_ = rhs.hdc_;
+	prev_font_ = rhs.prev_font_;
+	font_ = rhs.font_;
+	return *this;
+}
+
 winiette::Font::~Font() noexcept
 {
 	if (prev_font_ != nullptr)
@@ -31,6 +44,13 @@ auto winiette::Font::Use() -> void
 {
 	if (font_ != nullptr)
 		prev_font_ = reinterpret_cast<Hfont>(SelectObject(hdc_, font_));
+}
+
+auto winiette::Font::log_font() const -> LogFont
+{
+	LogFont lf{ 0 };
+	GetObjectW(font_, sizeof(LogFont), &lf);
+	return lf;
 }
 
 auto winiette::FontBuilder::Size(i32 size) -> void
@@ -92,6 +112,26 @@ auto winiette::FontBuilder::FaceName(std::wstring_view face_name) -> void
 auto winiette::FontBuilder::Build() const noexcept -> Font
 {
 	return Font(hdc_, CreateFontW(
+		font_struct_.lfHeight,
+		font_struct_.lfWidth,
+		font_struct_.lfEscapement,
+		font_struct_.lfOrientation,
+		font_struct_.lfWeight,
+		font_struct_.lfItalic,
+		font_struct_.lfUnderline,
+		font_struct_.lfStrikeOut,
+		font_struct_.lfCharSet,
+		font_struct_.lfOutPrecision,
+		font_struct_.lfClipPrecision,
+		font_struct_.lfQuality,
+		font_struct_.lfPitchAndFamily,
+		face_name_.data()
+	));
+}
+
+auto winiette::FontBuilder::BuildUnique() const noexcept -> std::unique_ptr<Font>
+{
+	return std::make_unique<Font>(hdc_, CreateFontW(
 		font_struct_.lfHeight,
 		font_struct_.lfWidth,
 		font_struct_.lfEscapement,

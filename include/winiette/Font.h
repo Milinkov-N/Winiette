@@ -3,6 +3,7 @@
 #define WINIETTE_INCLUDE_WINIETTE_FONT_H_
 
 #include <string_view>
+#include <memory>
 
 #include <winiette/win32.h>
 #include <winiette/types.h>
@@ -58,11 +59,12 @@ namespace winiette
 	public:
 		constexpr static auto Builder(Hdc hdc) -> FontBuilder;
 		auto Use() -> void;
+		auto log_font() const -> LogFont;
 		constexpr operator Hfont();
 
 	public:
-		Font(const Font&) = delete;
-		auto operator=(const Font&) = delete;
+		Font(const Font&);
+		auto operator=(const Font&) -> Font;
 
 	private:
 		Hdc hdc_;
@@ -101,6 +103,7 @@ namespace winiette
 		auto PitchAndFamily(Dword pitch_and_family) -> void;
 		auto FaceName(std::wstring_view face_name) -> void;
 		auto Build() const noexcept -> Font;
+		auto BuildUnique() const noexcept -> std::unique_ptr<Font>;
 	private:
 		Hdc hdc_;
 		LogFont font_struct_;
