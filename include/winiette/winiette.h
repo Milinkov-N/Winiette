@@ -9,6 +9,7 @@
 #include <winiette/button.h>
 #include <winiette/msgbox.h>
 #include <winiette/drawer.h>
+#include <winiette/edit.h>
 #include <winiette/font.h>
 #include <winiette/filedialog.h>
 

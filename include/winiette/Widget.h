@@ -69,7 +69,7 @@ namespace winiette
 	class Widget
 	{
 	public:
-		Widget() = delete;
+		// Widget() = delete;
 		Widget(Widget&& other) noexcept;
 
 		auto operator=(Widget&& rhs) noexcept -> Widget&;
@@ -78,6 +78,7 @@ namespace winiette
 		auto Create(Hwnd parent = nullptr, Hmenu menu = nullptr) -> void;
 		constexpr auto GetWindowHandle() const noexcept -> const Hwnd&;
 		auto GetMenuHandle() const -> Hmenu;
+		constexpr auto GetCreateOptions() const noexcept -> const WidgetCreateOptions&;
 
 	public:
 		Widget(const Widget&) = delete;
@@ -107,6 +108,11 @@ namespace winiette
 	constexpr auto Widget::GetWindowHandle() const noexcept -> const Hwnd&
 	{
 		return hwnd_;
+	}
+
+	constexpr auto Widget::GetCreateOptions() const noexcept -> const WidgetCreateOptions&
+	{
+		return wco_;
 	}
 } // namespace winiette
 #endif  // WINIETTE_INCLUDE_WINIETTE_WIDGET_H_

@@ -4,7 +4,7 @@
 #include <sstream>
 
 winiette::Drawer::Drawer(Hwnd hwnd) noexcept
-	: hwnd_(hwnd), ps_{ 0 }, hdc_(BeginPaint(hwnd_, &ps_)), font_(nullptr)
+	: hwnd_(hwnd), ps_{ 0 }, hdc_(BeginPaint(hwnd_, &ps_))
 {
 }
 

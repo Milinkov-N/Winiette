@@ -34,9 +34,11 @@ namespace winiette
 
 	public:
 		template<class W, class... Args>
-		auto EmplaceWidget(Args... args) -> void;
+		auto EmplaceWidget(Args... args) -> Widget&;
 		auto Connect(u64 id, Handler handler) -> void;
+		auto OnCreate(MessageCallback create_cb) -> void;
 		auto OnPaint(MessageCallback paint_cb) -> void;
+		auto OnSize(MessageCallback size_cb) -> void;
 		auto OnDestroy(MessageCallback destroy_cb) -> void;
 		auto Show() -> void;
 		auto Exec() -> i32;
@@ -51,15 +53,18 @@ namespace winiette
 		Hcursor cursor_;
 		WndProcCallback cb_;
 		std::vector<std::unique_ptr<Widget>> widgets_;
+		MessageCallback create_cb_;
 		MessageCallback paint_cb_;
+		MessageCallback size_cb_;
 		MessageCallback destroy_cb_;
 		std::map<Hmenu, Handler> handlers_;
 	};
 
 	template<class W, class ...Args>
-	inline auto Window::EmplaceWidget(Args ...args) -> void
+	inline auto Window::EmplaceWidget(Args ...args) -> Widget&
 	{
 		widgets_.push_back(std::make_unique<W>(args...));
+		return *widgets_.back().get();
 	}
 }  // namespace winiette
 

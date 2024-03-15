@@ -27,7 +27,9 @@ winiette::Window::Window(
 	icon_(icon),
 	cursor_(cursor),
 	cb_(_DefaultWindowProcCallback),
+	create_cb_(DEFAULT_MESSAGE_CALLBACK),
 	paint_cb_(DEFAULT_MESSAGE_CALLBACK),
+	size_cb_(DEFAULT_MESSAGE_CALLBACK),
 	destroy_cb_(DEFAULT_MESSAGE_CALLBACK)
 {
 	wco_.size = size;
@@ -40,9 +42,19 @@ auto winiette::Window::Connect(u64 id, Handler handler) -> void
 	handlers_.insert({ reinterpret_cast<Hmenu>(id), handler });
 }
 
+auto winiette::Window::OnCreate(MessageCallback create_cb) -> void
+{
+	create_cb_ = create_cb;
+}
+
 auto winiette::Window::OnPaint(MessageCallback paint_cb) -> void
 {
 	paint_cb_ = paint_cb;
+}
+
+auto winiette::Window::OnSize(MessageCallback size_cb) -> void
+{
+	size_cb_ = size_cb;
 }
 
 auto winiette::Window::OnDestroy(MessageCallback destroy_cb) -> void
@@ -89,6 +101,7 @@ auto winiette::Window::WindowProc(u32 msg, Wparam wparam, Lparam lparam) -> Lres
 	case WM_CREATE:
 	{
 		for (const auto& w : widgets_) w->Create(hwnd_);
+		create_cb_(hwnd_);
 		break;
 	}
 	case WM_PAINT:
@@ -102,6 +115,9 @@ auto winiette::Window::WindowProc(u32 msg, Wparam wparam, Lparam lparam) -> Lres
 		if (handler != handlers_.end()) handler->second();
 		break;
 	}
+	case WM_SIZE:
+		size_cb_(hwnd_);
+		break;
 	case WM_DESTROY:
 		PostQuitMessage(destroy_cb_(hwnd_));
 		break;
